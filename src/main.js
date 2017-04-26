@@ -3,12 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 Vue.config.productionTip = false
-// ÒýÈëcommoncss
+// ï¿½ï¿½ï¿½ï¿½commoncss
 import './common/css/common.css'
-// ÅäÖÃ resource
+// ï¿½ï¿½ï¿½ï¿½ resource
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
-// ÅäÖÃroute
+// ï¿½ï¿½ï¿½ï¿½route
 import VueRouter from 'vue-router'
 import goods from './components/goods/goods'
 import seller from './components/seller/seller'
