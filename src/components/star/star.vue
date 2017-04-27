@@ -1,6 +1,6 @@
 <template>
   <div class="star" :class="starType">
-    <span v-for="itemClass in itemClasses" class="star-item" :class="itemClass"></span>
+    <span v-for="itemClass in itemClasses" class="star-item" :class="itemClass" :key="itemClass.id"></span>
   </div>
 </template>
 
@@ -23,14 +23,11 @@
         return 'star-' + this.size
       },
       itemClasses() {
-        if (!this.score) {
-          return
-        }
         let result = []
         let score = Math.floor(this.score * 2) / 2
         let hasDecimal = score % 1 !== 0
         let integer = Math.floor(score)
-        for (let i = 0; i < integer.length; i++) {
+        for (let i = 0; i < integer; i++) {
           result.push(CLS_ON)
         }
         if (hasDecimal) {

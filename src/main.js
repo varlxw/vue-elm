@@ -30,6 +30,5 @@ new Vue({
   el: '#app',
   router,
   render: create => create(App)
-
 })
 
