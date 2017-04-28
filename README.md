@@ -1,5 +1,5 @@
-# sell
-
+# sell 技术栈
+  vue-cli + vue2 + vue-route + vue-resource + sass + webpack 
 > sell app
 
 ## Build Setup
