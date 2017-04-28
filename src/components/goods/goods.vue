@@ -82,7 +82,6 @@
       },
       _calculateHeight() {
         let foodList = this.$refs.foodListHook
-//        let foodList = this.$refs.foodsWraaper.getElementsByClassName('food-list-hook')
         let height = 0
         this.listHeight.push(height)
         for (let i = 0; i < foodList.length; i++) {
@@ -90,7 +89,7 @@
           height += item.clientHeight
           this.listHeight.push(height)
         }
-//        console.log(this.listHeight)
+        console.log(this.listHeight)
       },
       selectMenu(index, event) {
         if (!event._constructed) {
@@ -99,7 +98,7 @@
         let foodList = this.$refs.foodListHook
         let el = foodList[index]
         this.foodsScroll.scrollToElement(el, 300)
-        console.log(index)
+//        console.log(index)
       }
     },
     computed: {
