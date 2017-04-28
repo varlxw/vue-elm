@@ -2,7 +2,8 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li v-for="item in goods" :key="item.id" class="menu-item border_1px">
+        <li v-for="(item, index) in goods" :key="item.id" class="menu-item border_1px"
+            :class="{current: index===currentIndex}" @click="selectMenu(index,$event)">
           <span class="text">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
           </span>
@@ -11,7 +12,7 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li v-for="item in goods" :key="item.id" class="food-list">
+        <li v-for="item in goods" :key="item.id" class="food-list food-list-hook" ref="foodListHook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
             <li v-for="food in item.foods" class="food-item border_1px">
@@ -22,12 +23,11 @@
                 <h2 class="name">{{food.name}}</h2>
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
-                  <span class="count">月售{{food.sellCount}}</span>
-                  <span>好评率{{food.rating}}</span>
+                  <span class="count">月售{{food.sellCount}}</span><span>好评率{{food.rating}}</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥{{food.price}}</span>
-                  <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                  <span class="now">￥{{food.price}}</span><span class="old"
+                                                                v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
               </div>
             </li>
@@ -49,7 +49,9 @@
     data() {
       return {
         classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
-        goods: []
+        goods: [],
+        listHeight: [],
+        scrollY: 0
       }
     },
     created: function () {
@@ -60,14 +62,55 @@
           this.goods = response.data
           this.$nextTick(() => {
             this._initScroll()
+            this._calculateHeight()
           })
         }
       })
     },
     methods: {
       _initScroll() {
-        this.menuScroll = new BScroll(this.$refs.menuWrapper, {})
-        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {})
+        this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+          click: true
+        })
+        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          probeType: 3
+        })
+        this.foodsScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y))
+//          console.log(this.scrollY)
+        })
+      },
+      _calculateHeight() {
+        let foodList = this.$refs.foodListHook
+//        let foodList = this.$refs.foodsWraaper.getElementsByClassName('food-list-hook')
+        let height = 0
+        this.listHeight.push(height)
+        for (let i = 0; i < foodList.length; i++) {
+          let item = foodList[i]
+          height += item.clientHeight
+          this.listHeight.push(height)
+        }
+//        console.log(this.listHeight)
+      },
+      selectMenu(index, event) {
+        if (!event._constructed) {
+          return
+        }
+        let foodList = this.$refs.foodListHook
+        let el = foodList[index]
+        this.foodsScroll.scrollToElement(el, 300)
+        console.log(index)
+      }
+    },
+    computed: {
+      currentIndex() {
+        for (let i = 0; i < this.listHeight.length; i++) {
+          let height1 = this.listHeight[i]
+          let height2 = this.listHeight[i + 1]
+          if (!height2 || (this.scrollY >= height1 && this.scrollY <= height2)) {
+            return i
+          }
+        }
       }
     }
 
@@ -91,6 +134,13 @@
         height: 54px;
         line-height: 14px;
         padding: 0 12px;
+        &.current {
+          position: relative;
+          z-index: 10;
+          margin-top: -1px;
+          background: #fff;
+          font-weight: 700;
+        }
         .icon {
           vertical-align: top;
           display: inline-block;
@@ -164,6 +214,7 @@
               color: rgb(147, 153, 159);
             }
             .desc {
+              line-height: 12px;
               margin-bottom: 8px;
             }
             .extra {
