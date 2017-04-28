@@ -246,7 +246,7 @@
       top: 0;
       overflow: auto;
       background: rgba(7, 17, 27, 0.8);
-      background-filter: blur(10px);
+      bg
       &.fade-enter-active, &.fade-leave-active {
         transition: all .5s
       }

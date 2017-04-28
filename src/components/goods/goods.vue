@@ -35,10 +35,12 @@
         </li>
       </ul>
     </div>
+    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.inprice"></shopcart>
   </div>
 </template>
 <script>
   import BScroll from 'better-scroll'
+  import shopcart from '../shopcart/shopcart'
   const ERR_OK = 0
   export default {
     props: {
@@ -111,11 +113,15 @@
           }
         }
       }
+    },
+    components: {
+      shopcart
     }
 
   }
 </script>
 <style lang="scss" rel="stylesheet/scss">
+  @import "../../common/css/iconfont.css";
   .goods {
     display: flex;
     position: absolute;
