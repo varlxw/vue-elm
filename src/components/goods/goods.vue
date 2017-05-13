@@ -26,8 +26,10 @@
                   <span class="count">月售{{food.sellCount}}</span><span>好评率{{food.rating}}</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥{{food.price}}</span><span class="old"
-                                                                v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                  <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
                 </div>
               </div>
             </li>
@@ -41,6 +43,7 @@
 <script>
   import BScroll from 'better-scroll'
   import shopcart from '../shopcart/shopcart'
+  import cartcontrol from '../cartcontrol/cartcontrol'
   const ERR_OK = 0
   export default {
     props: {
@@ -75,6 +78,7 @@
           click: true
         })
         this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          click: true,
           probeType: 3
         })
         this.foodsScroll.on('scroll', (pos) => {
@@ -91,10 +95,10 @@
           height += item.clientHeight
           this.listHeight.push(height)
         }
-        console.log(this.listHeight)
+//        console.log(this.listHeight)
       },
       selectMenu(index, event) {
-        console.log(index + 'index')
+//        console.log(index + 'index')
         if (!event._constructed) {
           return
         }
@@ -108,18 +112,19 @@
       currentIndex() {
         for (let i = 0; i < this.listHeight.length; i++) {
           let height1 = this.listHeight[i]
-          console.log(height1 + 'height1')
+//          console.log(height1 + 'height1')
           let height2 = this.listHeight[i + 1]
-          console.log(height2 + 'height2')
+//          console.log(height2 + 'height2')
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-            console.log(i + 'i')
+//            console.log(i + 'i')
             return i
           }
         }
       }
     },
     components: {
-      shopcart
+      shopcart,
+      cartcontrol
     }
 
   }
@@ -245,6 +250,11 @@
                 font-size: 10px;
                 color: rgb(147, 153, 159);
               }
+            }
+            .cartcontrol-wrapper {
+              position: absolute;
+              right: 0;
+              bottom: 10px;
             }
           }
         }
