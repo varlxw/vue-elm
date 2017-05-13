@@ -35,7 +35,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.inprice"></shopcart>
+    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 <script>
@@ -94,6 +94,7 @@
         console.log(this.listHeight)
       },
       selectMenu(index, event) {
+        console.log(index + 'index')
         if (!event._constructed) {
           return
         }
@@ -107,8 +108,11 @@
       currentIndex() {
         for (let i = 0; i < this.listHeight.length; i++) {
           let height1 = this.listHeight[i]
+          console.log(height1 + 'height1')
           let height2 = this.listHeight[i + 1]
-          if (!height2 || (this.scrollY >= height1 && this.scrollY <= height2)) {
+          console.log(height2 + 'height2')
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            console.log(i + 'i')
             return i
           }
         }
@@ -122,6 +126,7 @@
 </script>
 <style lang="scss" rel="stylesheet/scss">
   @import "../../common/css/iconfont.css";
+
   .goods {
     display: flex;
     position: absolute;
