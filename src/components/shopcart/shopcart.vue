@@ -22,7 +22,7 @@
 <script>
   export default {
     props: {
-      selectFootds: {
+      selectFoods: {
         type: Array,
         default() {
           return []
@@ -40,14 +40,14 @@
     computed: {
       totalPrice() {
         let total = 0
-        this.selectFootds.forEach((food) => {
+        this.selectFoods.forEach((food) => {
           total += food.price * food.count
         })
         return total
       },
       totalCount() {
         let count = 0
-        this.selectFootds.forEach((food) => {
+        this.selectFoods.forEach((food) => {
           count += food.count
         })
         return count
